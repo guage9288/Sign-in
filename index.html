@@ -11,224 +11,169 @@
             --text-sub: #969799;
             --border-color: #f2f3f5;
             --cyan-btn: #47c1c4;
+            --icon-cyan: #47c1c4;
+            --font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
+            font-family: var(--font-family);
             background-color: var(--bg-color);
             margin: 0;
             padding-bottom: 100px;
             color: var(--text-main);
             -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.2px; 
         }
 
-        /* 顶部导航栏 */
-        .nav-bar {
+        .nav-bar { 
+            background: #fff; height: 46px; display: flex; align-items: center; justify-content: center; 
+            font-size: 17px; font-weight: 500; border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        /* 顶部销假状态标志 */
+        .status-header {
             background: #fff;
-            height: 46px;
+            padding: 12px 16px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 17px;
-            font-weight: 500;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        /* 调整内容块间距 */
-        .section {
-            background: #fff;
-            margin-bottom: 10px;
-        }
-
-        .section-title {
-            padding: 12px 16px;
+            color: var(--icon-cyan);
             font-size: 15px;
             font-weight: 500;
-            color: var(--text-main);
             border-bottom: 1px solid var(--border-color);
         }
+        .status-header .check-icon { margin-right: 8px; width: 18px; height: 18px; }
 
-        /* 紧凑列表项 */
-        .cell {
-            display: flex;
-            padding: 10px 16px;
-            font-size: 14px;
-            line-height: 1.4;
-        }
+        .section { background: #fff; margin-bottom: 10px; }
+        .section-title { padding: 14px 16px 10px; font-size: 15px; font-weight: 500; }
+        
+        .cell { display: flex; padding: 10px 16px; font-size: 14px; align-items: flex-start; line-height: 1.4; }
+        .cell-label { width: 110px; color: var(--text-sub); flex-shrink: 0; }
+        .cell-value { flex-grow: 1; color: var(--text-main); word-break: break-all; }
 
-        .cell-label {
-            width: 110px;
-            color: var(--text-sub);
-            flex-shrink: 0;
-        }
-
-        .cell-value {
-            flex-grow: 1;
-            color: var(--text-main);
-            word-break: break-all;
-        }
-
-        /* 可编辑高亮 */
-        [contenteditable="true"] {
-            outline: none;
-            border-bottom: 1px dashed #ccc;
-        }
-
-        /* 附件占位样式 */
+        /* 附件样式 */
         .attachment-box {
-            padding: 10px 16px;
-            font-size: 12px;
-            color: #666;
-            background: #fafafa;
-            margin: 0 16px 10px;
-            border: 1px solid #eee;
+            margin: 5px 16px 15px;
+            padding: 12px;
+            background: #f7f8fa;
+            border-radius: 4px;
             display: flex;
             align-items: center;
         }
         .file-icon {
-            width: 30px;
-            height: 30px;
-            background: #1989fa;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-            font-size: 18px;
+            width: 32px; height: 32px; background: #fff; border: 1px solid #ebedf0;
+            display: flex; align-items: center; justify-content: center; margin-right: 10px;
+            color: #1989fa; font-size: 18px; font-weight: bold;
+        }
+        .file-info { flex: 1; font-size: 13px; }
+        .file-name { color: #323233; margin-bottom: 2px; line-height: 1.2; }
+        .file-size { color: #969799; font-size: 12px; }
+
+        input {
+            font-family: var(--font-family); width: 100%; border: none; outline: none;
+            background: transparent; color: var(--text-main); padding: 0; font-size: 14px;
         }
 
-        /* 流程步骤 */
-        .steps { padding: 15px 20px; }
-        .step-item {
-            position: relative;
-            padding-left: 25px;
-            padding-bottom: 20px;
-            border-left: 1.5px solid #ebedf0;
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator { display: none; -webkit-appearance: none; }
+
+        .edit-mode input { border-bottom: 1px dashed #4fc08d; }
+        .preview-mode input { border-bottom: none; pointer-events: none; }
+        .preview-mode .status-header { display: flex; }
+        .edit-mode .status-header { display: none; }
+
+        /* 审核流程 */
+        .steps { padding: 20px 0; display: flex; flex-direction: column; align-items: center; }
+        .step-item { position: relative; width: 100%; display: flex; justify-content: center; padding-bottom: 30px; }
+        .step-item::after {
+            content: ""; position: absolute; left: 50%; top: 24px; bottom: 0; width: 1px;
+            background: #ebedf0; transform: translateX(-50%); z-index: 1;
         }
-        .step-item:last-child { border-left-color: transparent; }
-        .step-circle {
-            position: absolute;
-            left: -8px;
-            top: 2px;
-            width: 15px;
-            height: 15px;
-            background: #07c160;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 10px;
+        .step-item:last-child::after { display: none; }
+        .step-left { width: 100px; text-align: right; padding-right: 15px; font-size: 12px; color: var(--text-sub); line-height: 1.3; padding-top: 4px; }
+        .step-icon-wrapper { position: relative; z-index: 2; width: 24px; background: #fff; display: flex; justify-content: center; }
+        .check-circle {
+            width: 20px; height: 20px; background-color: var(--icon-cyan); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
         }
-        .step-info { font-size: 13px; }
-        .step-time { color: var(--text-sub); font-size: 12px; margin-bottom: 2px; }
+        .check-circle svg { width: 12px; height: 12px; fill: none; stroke: white; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+        .step-right { width: 160px; padding-left: 15px; font-size: 14px; line-height: 1.4; }
 
         /* 底部按钮 */
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            height: 50px;
-            display: flex;
-            background: #fff;
-            box-shadow: 0 -1px 5px rgba(0,0,0,0.05);
-        }
-        .footer button {
-            flex: 1;
-            border: none;
-            font-size: 16px;
-            font-weight: 500;
-        }
-        .btn-left { background: #fff; color: #323233; border-top: 1px solid #eee; }
+        .footer { position: fixed; bottom: 0; width: 100%; height: 50px; display: flex; background: #fff; border-top: 1px solid #eee; z-index: 100; }
+        .footer button { flex: 1; border: none; font-size: 16px; font-weight: 400; font-family: var(--font-family); }
+        .btn-left { background: #fff; color: #323233; border-right: 1px solid #f2f3f5; }
         .btn-right { background: var(--cyan-btn); color: #fff; }
 
-        /* 编辑/预览开关 */
-        #edit-toggle {
-            position: fixed;
-            right: 15px;
-            bottom: 70px;
-            background: rgba(0,0,0,0.6);
-            color: #fff;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            z-index: 200;
+        #mode-btn { 
+            position: fixed; right: 15px; bottom: 70px; background: rgba(0,0,0,0.6); 
+            color: #fff; padding: 6px 12px; border-radius: 4px; font-size: 12px; z-index: 200; border: none;
         }
     </style>
 </head>
-<body>
+<body class="preview-mode">
 
-<div id="edit-toggle" onclick="toggleMode()">切换到预览</div>
+<button id="mode-btn" onclick="toggleMode()">切换到编辑</button>
 <div class="nav-bar">请假</div>
-
 <div class="section">
     <div class="section-title">去向信息</div>
-    <div class="cell"><div class="cell-label">是否出校</div><div class="cell-value" contenteditable="true">否</div></div>
+    <div class="cell"><div class="cell-label">是否出校</div><div class="cell-value"><input type="text" value="是"></div></div>
 </div>
 
 <div class="section">
     <div class="section-title">请假信息</div>
-    <div class="cell"><div class="cell-label">学年</div><div class="cell-value" contenteditable="true">2025-2026学年</div></div>
-    <div class="cell"><div class="cell-label">学期</div><div class="cell-value" contenteditable="true">第二学期</div></div>
-    <div class="cell"><div class="cell-label">请假类型</div><div class="cell-value" contenteditable="true">公假</div></div>
-    <div class="cell"><div class="cell-label">请假性质</div><div class="cell-value" contenteditable="true">因公请假</div></div>
-    <div class="cell"><div class="cell-label">申请日期</div><div class="cell-value" contenteditable="true">2026-04-22 11:24</div></div>
-    <div class="cell"><div class="cell-label">请假开始日期</div><div class="cell-value" contenteditable="true">2026-04-22 08:00</div></div>
-    <div class="cell"><div class="cell-label">请假结束日期</div><div class="cell-value" contenteditable="true">2026-04-22 17:40</div></div>
-    <div class="cell"><div class="cell-label">请假天数</div><div class="cell-value" contenteditable="true">0.4</div></div>
-    <div class="cell"><div class="cell-label">来源类型</div><div class="cell-value" contenteditable="true">学生申请</div></div>
-    <div class="cell"><div class="cell-label">请假事由</div><div class="cell-value" contenteditable="true">心理演讲比赛</div></div>
-    
-    <div class="cell" style="padding-bottom: 5px;"><div class="cell-label">证明材料 (1/9)</div></div>
+    <div class="cell"><div class="cell-label">学年</div><div class="cell-value"><input type="text" value="2025-2026学年"></div></div>
+    <div class="cell"><div class="cell-label">学期</div><div class="cell-value"><input type="text" value="第二学期"></div></div>
+    <div class="cell"><div class="cell-label">请假类型</div><div class="cell-value"><input type="text" value="公假"></div></div>
+    <div class="cell"><div class="cell-label">请假性质</div><div class="cell-value"><input type="text" value="因公请假"></div></div>
+    <div class="cell"><div class="cell-label">申请日期</div><div class="cell-value"><input type="datetime-local" value="2026-04-22T11:24"></div></div>
+    <div class="cell"><div class="cell-label">请假开始日期</div><div class="cell-value"><input type="datetime-local" value="2026-04-22T08:00"></div></div>
+    <div class="cell"><div class="cell-label">请假结束日期</div><div class="cell-value"><input type="datetime-local" value="2026-04-22T17:40"></div></div>
+    <div class="cell"><div class="cell-label">请假天数</div><div class="cell-value"><input type="number" value="0.4" step="0.1"></div></div>
+    <div class="cell"><div class="cell-label">来源类型</div><div class="cell-value"><input type="text" value="学生申请"></div></div>
+    <div class="cell"><div class="cell-label">请假事由</div><div class="cell-value"><input type="text" value="学生会外出活动对接"></div></div>
+    <div class="cell"><div class="cell-label">证明材料 (1/9)</div></div>
     <div class="attachment-box">
         <div class="file-icon">?</div>
-        <div>
-            <div contenteditable="true" style="font-size:11px;">37GU_1SQQccn2M8JkoQey6OxJavzvpjCnPu6...</div>
-            <div style="color:#999">621KB</div>
+        <div class="file-info">
+            <div class="file-name"><input type="text" value="37GU_1SQQccn2M8JkoQey6OxJavzvpjCnPu6..."></div>
+            <div class="file-size">621KB</div>
         </div>
     </div>
-    
-    <div class="cell"><div class="cell-label">手机号</div><div class="cell-value" contenteditable="true">17722970680</div></div>
+    <div class="cell"><div class="cell-label">手机号</div><div class="cell-value"><input type="text" value="17722970680"></div></div>
 </div>
 
 <div class="section">
     <div class="section-title">销假信息</div>
-    <div class="cell"><div class="cell-label">销假状态</div><div class="cell-value" style="color:#ee0a24" contenteditable="true">未销假</div></div>
-    <div class="cell"><div class="cell-label">销假类型</div><div class="cell-value" contenteditable="true"></div></div>
-    <div class="cell"><div class="cell-label">销假日期</div><div class="cell-value" contenteditable="true"></div></div>
-    <div class="cell"><div class="cell-label">销假人</div><div class="cell-value" contenteditable="true"></div></div>
-    <div class="cell"><div class="cell-label">销假说明</div><div class="cell-value" contenteditable="true"></div></div>
-    <div class="cell"><div class="cell-label">合照示例</div><div class="cell-value" contenteditable="true"></div></div>
-    <div class="cell"><div class="cell-label">学生合照</div><div class="cell-value" contenteditable="true"></div></div>
+    <div class="cell"><div class="cell-label">销假状态</div><div class="cell-value" style="color:#47c1c4"><input type="text" value="未销假"></div></div>
+    <div class="cell"><div class="cell-label">销假类型</div><div class="cell-value"><input type="text" value=""></div></div>
+    <div class="cell"><div class="cell-label">销假日期</div><div class="cell-value"><input type="text" value=""></div></div>
+    <div class="cell"><div class="cell-label">销假人</div><div class="cell-value"><input type="text" value=""></div></div>
+    <div class="cell"><div class="cell-label">销假说明</div><div class="cell-value"><input type="text" value=""></div></div>
+    <div class="cell"><div class="cell-label">合照示例</div><div class="cell-value"></div></div>
+    <div class="cell"><div class="cell-label">学生合照</div><div class="cell-value"></div></div>
 </div>
 
 <div class="section">
     <div class="section-title">审核流程</div>
     <div class="steps">
         <div class="step-item">
-            <div class="step-circle">✓</div>
-            <div class="step-info">
-                <div class="step-time" contenteditable="true">2026-04-22 11:24</div>
-                <div contenteditable="true">提交申请</div>
+            <div class="step-left">2026-04-22<br>11:24</div>
+            <div class="step-icon-wrapper"><div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div></div>
+            <div class="step-right">提交申请</div>
+        </div>
+        <div class="step-item">
+            <div class="step-left">2026-04-22<br>15:00:13</div>
+            <div class="step-icon-wrapper"><div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div></div>
+            <div class="step-right">
+                辅导员审核通过<br>
+                <span style="color:#969799; font-size:13px">审核人：陈健-计</span><br>
+                <span style="color:#969799; font-size:13px">审核意见：通过</span>
             </div>
         </div>
         <div class="step-item">
-            <div class="step-circle">✓</div>
-            <div class="step-info">
-                <div class="step-time" contenteditable="true">2026-04-22 15:00:13</div>
-                <div contenteditable="true">辅导员审核通过</div>
-                <div style="color:#969799">审核人：<span contenteditable="true">陈健-计</span></div>
-                <div style="color:#969799">审核意见：<span contenteditable="true">通过</span></div>
-            </div>
-        </div>
-        <div class="step-item">
-            <div class="step-circle">✓</div>
-            <div class="step-info">
-                <div contenteditable="true">结束</div>
-            </div>
+            <div class="step-left"></div>
+            <div class="step-icon-wrapper"><div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div></div>
+            <div class="step-right">结束</div>
         </div>
     </div>
 </div>
@@ -239,20 +184,17 @@
 </div>
 
 <script>
-    let isEdit = true;
     function toggleMode() {
-        isEdit = !isEdit;
-        const els = document.querySelectorAll('[contenteditable]');
-        const btn = document.getElementById('edit-toggle');
-        
-        els.forEach(el => {
-            el.setAttribute('contenteditable', isEdit);
-            el.style.borderBottom = isEdit ? "1px dashed #ccc" : "none";
-        });
-        
-        btn.innerText = isEdit ? "切换到预览" : "切换到编辑";
+        const body = document.body;
+        const btn = document.getElementById('mode-btn');
+        if (body.classList.contains('edit-mode')) {
+            body.classList.replace('edit-mode', 'preview-mode');
+            btn.innerText = "切换到编辑";
+        } else {
+            body.classList.replace('preview-mode', 'edit-mode');
+            btn.innerText = "切换到预览";
+        }
     }
 </script>
-
 </body>
 </html>

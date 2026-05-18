@@ -31,7 +31,7 @@
             position: sticky; top: 0; z-index: 100;
         }
 
-        /* 顶部销假状态标志 */
+        /* 状态标志 */
         .status-header {
             background: #fff;
             padding: 12px 16px;
@@ -42,7 +42,6 @@
             font-weight: 500;
             border-bottom: 1px solid var(--border-color);
         }
-        .status-header .check-icon { margin-right: 8px; width: 18px; height: 18px; }
 
         .section { background: #fff; margin-bottom: 10px; }
         .section-title { padding: 14px 16px 10px; font-size: 15px; font-weight: 500; }
@@ -51,7 +50,7 @@
         .cell-label { width: 110px; color: var(--text-sub); flex-shrink: 0; }
         .cell-value { flex-grow: 1; color: var(--text-main); word-break: break-all; }
 
-        /* 附件样式 */
+        /* 附件模块 */
         .attachment-box {
             margin: 5px 16px 15px;
             padding: 12px;
@@ -74,29 +73,36 @@
             background: transparent; color: var(--text-main); padding: 0; font-size: 14px;
         }
 
-        input[type="datetime-local"]::-webkit-calendar-picker-indicator { display: none; -webkit-appearance: none; }
-
+        /* 模式控制 */
         .edit-mode input { border-bottom: 1px dashed #4fc08d; }
         .preview-mode input { border-bottom: none; pointer-events: none; }
         .preview-mode .status-header { display: flex; }
         .edit-mode .status-header { display: none; }
 
-        /* 审核流程 */
+        /* --- 审核流程对齐优化 --- */
         .steps { padding: 20px 0; display: flex; flex-direction: column; align-items: center; }
         .step-item { position: relative; width: 100%; display: flex; justify-content: center; padding-bottom: 30px; }
+        
+        /* 时间轴线 */
         .step-item::after {
-            content: ""; position: absolute; left: 50%; top: 24px; bottom: 0; width: 1px;
+            content: ""; position: absolute; left: 50%; top: 22px; bottom: -10px; width: 1px;
             background: #ebedf0; transform: translateX(-50%); z-index: 1;
         }
         .step-item:last-child::after { display: none; }
-        .step-left { width: 100px; text-align: right; padding-right: 15px; font-size: 12px; color: var(--text-sub); line-height: 1.3; padding-top: 4px; }
-        .step-icon-wrapper { position: relative; z-index: 2; width: 24px; background: #fff; display: flex; justify-content: center; }
+
+        .step-left {
+            width: 85px; text-align: right; padding-right: 12px; font-size: 12px;
+            color: var(--text-sub); line-height: 1.4; padding-top: 2px; flex-shrink: 0;
+        }
+        .step-icon-wrapper { position: relative; z-index: 2; width: 24px; background: #fff; display: flex; justify-content: center; flex-shrink: 0; }
+        
         .check-circle {
             width: 20px; height: 20px; background-color: var(--icon-cyan); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
         }
         .check-circle svg { width: 12px; height: 12px; fill: none; stroke: white; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-        .step-right { width: 160px; padding-left: 15px; font-size: 14px; line-height: 1.4; }
+        
+        .step-right { width: 160px; padding-left: 12px; font-size: 14px; line-height: 1.5; flex-shrink: 0; }
 
         /* 底部按钮 */
         .footer { position: fixed; bottom: 0; width: 100%; height: 50px; display: flex; background: #fff; border-top: 1px solid #eee; z-index: 100; }
@@ -115,7 +121,7 @@
 <button id="mode-btn" onclick="toggleMode()">切换到编辑</button>
 <div class="section">
     <div class="section-title">去向信息</div>
-    <div class="cell"><div class="cell-label">是否出校</div><div class="cell-value"><input type="text" value="是"></div></div>
+    <div class="cell"><div class="cell-label">是否出校</div><div class="cell-value"><input type="text" value="否"></div></div>
 </div>
 
 <div class="section">
@@ -124,17 +130,17 @@
     <div class="cell"><div class="cell-label">学期</div><div class="cell-value"><input type="text" value="第二学期"></div></div>
     <div class="cell"><div class="cell-label">请假类型</div><div class="cell-value"><input type="text" value="公假"></div></div>
     <div class="cell"><div class="cell-label">请假性质</div><div class="cell-value"><input type="text" value="因公请假"></div></div>
-    <div class="cell"><div class="cell-label">申请日期</div><div class="cell-value"><input type="datetime-local" value="2026-04-22T11:24"></div></div>
-    <div class="cell"><div class="cell-label">请假开始日期</div><div class="cell-value"><input type="datetime-local" value="2026-04-22T08:00"></div></div>
-    <div class="cell"><div class="cell-label">请假结束日期</div><div class="cell-value"><input type="datetime-local" value="2026-04-22T17:40"></div></div>
-    <div class="cell"><div class="cell-label">请假天数</div><div class="cell-value"><input type="number" value="0.4" step="0.1"></div></div>
+    <div class="cell"><div class="cell-label">申请日期</div><div class="cell-value"><input type="text" value="2026-04-22 11:24"></div></div>
+    <div class="cell"><div class="cell-label">请假开始日期</div><div class="cell-value"><input type="text" value="2026-04-22 08:00"></div></div>
+    <div class="cell"><div class="cell-label">请假结束日期</div><div class="cell-value"><input type="text" value="2026-04-22 17:40"></div></div>
+    <div class="cell"><div class="cell-label">请假天数</div><div class="cell-value"><input type="text" value="0.4"></div></div>
     <div class="cell"><div class="cell-label">来源类型</div><div class="cell-value"><input type="text" value="学生申请"></div></div>
-    <div class="cell"><div class="cell-label">请假事由</div><div class="cell-value"><input type="text" value="学生会外出活动对接"></div></div>
+    <div class="cell"><div class="cell-label">请假事由</div><div class="cell-value"><input type="text" value="心理演讲比赛"></div></div>
     <div class="cell"><div class="cell-label">证明材料 (1/9)</div></div>
     <div class="attachment-box">
         <div class="file-icon">?</div>
         <div class="file-info">
-            <div class="file-name"><input type="text" value="37GU_1SQQccn2M8JkoQey6OxJavzvpjCnPu6..."></div>
+            <div class="file-name">37GU_1SQQccn2M8JkoQey6OxJavzvpjCnPu6...</div>
             <div class="file-size">621KB</div>
         </div>
     </div>
@@ -143,11 +149,11 @@
 
 <div class="section">
     <div class="section-title">销假信息</div>
-    <div class="cell"><div class="cell-label">销假状态</div><div class="cell-value" style="color:#47c1c4"><input type="text" value="未销假"></div></div>
-    <div class="cell"><div class="cell-label">销假类型</div><div class="cell-value"><input type="text" value=""></div></div>
-    <div class="cell"><div class="cell-label">销假日期</div><div class="cell-value"><input type="text" value=""></div></div>
-    <div class="cell"><div class="cell-label">销假人</div><div class="cell-value"><input type="text" value=""></div></div>
-    <div class="cell"><div class="cell-label">销假说明</div><div class="cell-value"><input type="text" value=""></div></div>
+    <div class="cell"><div class="cell-label">销假状态</div><div class="cell-value" style="color:#47c1c4"><input type="text" value="已销假"></div></div>
+    <div class="cell"><div class="cell-label">销假类型</div><div class="cell-value"><input type="text" value="定位销假"></div></div>
+    <div class="cell"><div class="cell-label">销假日期</div><div class="cell-value"><input type="text" value="2026-05-17 00:52:45"></div></div>
+    <div class="cell"><div class="cell-label">销假人</div><div class="cell-value"><input type="text" value="赖文瀚"></div></div>
+    <div class="cell"><div class="cell-label">销假说明</div><div class="cell-value"><input type="text" value="销架"></div></div>
     <div class="cell"><div class="cell-label">合照示例</div><div class="cell-value"></div></div>
     <div class="cell"><div class="cell-label">学生合照</div><div class="cell-value"></div></div>
 </div>
@@ -157,12 +163,16 @@
     <div class="steps">
         <div class="step-item">
             <div class="step-left">2026-04-22<br>11:24</div>
-            <div class="step-icon-wrapper"><div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div></div>
+            <div class="step-icon-wrapper">
+                <div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div>
+            </div>
             <div class="step-right">提交申请</div>
         </div>
         <div class="step-item">
             <div class="step-left">2026-04-22<br>15:00:13</div>
-            <div class="step-icon-wrapper"><div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div></div>
+            <div class="step-icon-wrapper">
+                <div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div>
+            </div>
             <div class="step-right">
                 辅导员审核通过<br>
                 <span style="color:#969799; font-size:13px">审核人：陈健-计</span><br>
@@ -171,8 +181,10 @@
         </div>
         <div class="step-item">
             <div class="step-left"></div>
-            <div class="step-icon-wrapper"><div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div></div>
-            <div class="step-right">结束</div>
+            <div class="step-icon-wrapper">
+                <div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div>
+            </div>
+            <div class="step-right" style="padding-top:2px">结束</div>
         </div>
     </div>
 </div>

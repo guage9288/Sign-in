@@ -3,89 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>请假详情-可编辑版</title>
+    <title>请假详情</title>
     <style>
         :root {
             --bg-color: #f7f8fa;
             --text-main: #323233;
             --text-sub: #969799;
-            --primary-blue: #4fc08d;
-            --border-color: #ebedf0;
+            --border-color: #f2f3f5;
+            --cyan-btn: #47c1c4;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
             background-color: var(--bg-color);
             margin: 0;
             padding-bottom: 100px;
             color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* 编辑状态高亮提示 */
-        [contenteditable="true"] {
-            outline: none;
-            background-color: #fffbe6; /* 淡黄色提醒这里可以改 */
-            padding: 2px 4px;
-            border-radius: 4px;
-            min-width: 20px;
-            display: inline-block;
-        }
-
-        .header {
+        /* 顶部导航栏 */
+        .nav-bar {
             background: #fff;
-            padding: 15px;
-            text-align: center;
-            font-weight: bold;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            font-weight: 500;
             border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
-        .section { background: #fff; margin-top: 12px; }
-        .section-title { padding: 15px; font-size: 16px; font-weight: 600; border-bottom: 1px solid var(--border-color); }
+        /* 调整内容块间距 */
+        .section {
+            background: #fff;
+            margin-bottom: 10px;
+        }
 
-        .cell { display: flex; padding: 12px 15px; font-size: 14px; border-bottom: 1px solid #fafafa; }
-        .cell-label { width: 100px; color: var(--text-sub); flex-shrink: 0; }
-        .cell-value { flex-grow: 1; color: var(--text-main); }
+        .section-title {
+            padding: 12px 16px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+        }
 
-        /* 审核流程样式 */
-        .steps { padding: 20px 15px; background: #fff; margin-top: 12px; }
-        .step-item { display: flex; border-left: 2px solid #ebedf0; padding-left: 20px; padding-bottom: 25px; position: relative; }
-        .step-item:last-child { border-left: transparent; }
-        .step-icon { position: absolute; left: -9px; width: 16px; height: 16px; background: #4fc08d; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; }
-        .step-time { font-size: 12px; color: var(--text-sub); margin-bottom: 4px; }
+        /* 紧凑列表项 */
+        .cell {
+            display: flex;
+            padding: 10px 16px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
 
-        /* 浮动控制按钮 */
-        .edit-fab {
-            position: fixed;
-            right: 20px;
-            bottom: 100px;
-            width: 50px;
-            height: 50px;
+        .cell-label {
+            width: 110px;
+            color: var(--text-sub);
+            flex-shrink: 0;
+        }
+
+        .cell-value {
+            flex-grow: 1;
+            color: var(--text-main);
+            word-break: break-all;
+        }
+
+        /* 可编辑高亮 */
+        [contenteditable="true"] {
+            outline: none;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        /* 附件占位样式 */
+        .attachment-box {
+            padding: 10px 16px;
+            font-size: 12px;
+            color: #666;
+            background: #fafafa;
+            margin: 0 16px 10px;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        .file-icon {
+            width: 30px;
+            height: 30px;
             background: #1989fa;
             color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        /* 流程步骤 */
+        .steps { padding: 15px 20px; }
+        .step-item {
+            position: relative;
+            padding-left: 25px;
+            padding-bottom: 20px;
+            border-left: 1.5px solid #ebedf0;
+        }
+        .step-item:last-child { border-left-color: transparent; }
+        .step-circle {
+            position: absolute;
+            left: -8px;
+            top: 2px;
+            width: 15px;
+            height: 15px;
+            background: #07c160;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            font-size: 12px;
-            z-index: 999;
-            cursor: pointer;
+            color: #fff;
+            font-size: 10px;
         }
+        .step-info { font-size: 13px; }
+        .step-time { color: var(--text-sub); font-size: 12px; margin-bottom: 2px; }
 
-        .footer-action { position: fixed; bottom: 0; width: 100%; display: flex; background: #fff; }
-        .btn { flex: 1; padding: 15px; text-align: center; font-size: 16px; border: none; }
-        .btn-white { background: #fff; color: #323233; border-right: 1px solid #ebedf0; }
-        .btn-cyan { background: #47c1c4; color: #fff; }
+        /* 底部按钮 */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            background: #fff;
+            box-shadow: 0 -1px 5px rgba(0,0,0,0.05);
+        }
+        .footer button {
+            flex: 1;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .btn-left { background: #fff; color: #323233; border-top: 1px solid #eee; }
+        .btn-right { background: var(--cyan-btn); color: #fff; }
+
+        /* 编辑/预览开关 */
+        #edit-toggle {
+            position: fixed;
+            right: 15px;
+            bottom: 70px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            z-index: 200;
+        }
     </style>
 </head>
 <body>
 
-<div class="edit-fab" onclick="toggleEdit()">编辑</div>
-
-<div class="header">请假</div>
+<div id="edit-toggle" onclick="toggleMode()">切换到预览</div>
+<div class="nav-bar">请假</div>
 
 <div class="section">
     <div class="section-title">去向信息</div>
@@ -97,56 +174,83 @@
     <div class="cell"><div class="cell-label">学年</div><div class="cell-value" contenteditable="true">2025-2026学年</div></div>
     <div class="cell"><div class="cell-label">学期</div><div class="cell-value" contenteditable="true">第二学期</div></div>
     <div class="cell"><div class="cell-label">请假类型</div><div class="cell-value" contenteditable="true">公假</div></div>
+    <div class="cell"><div class="cell-label">请假性质</div><div class="cell-value" contenteditable="true">因公请假</div></div>
     <div class="cell"><div class="cell-label">申请日期</div><div class="cell-value" contenteditable="true">2026-04-22 11:24</div></div>
-    <div class="cell"><div class="cell-label">开始日期</div><div class="cell-value" contenteditable="true">2026-04-22 08:00</div></div>
-    <div class="cell"><div class="cell-label">结束日期</div><div class="cell-value" contenteditable="true">2026-04-22 17:40</div></div>
+    <div class="cell"><div class="cell-label">请假开始日期</div><div class="cell-value" contenteditable="true">2026-04-22 08:00</div></div>
+    <div class="cell"><div class="cell-label">请假结束日期</div><div class="cell-value" contenteditable="true">2026-04-22 17:40</div></div>
     <div class="cell"><div class="cell-label">请假天数</div><div class="cell-value" contenteditable="true">0.4</div></div>
+    <div class="cell"><div class="cell-label">来源类型</div><div class="cell-value" contenteditable="true">学生申请</div></div>
     <div class="cell"><div class="cell-label">请假事由</div><div class="cell-value" contenteditable="true">心理演讲比赛</div></div>
+    
+    <div class="cell" style="padding-bottom: 5px;"><div class="cell-label">证明材料 (1/9)</div></div>
+    <div class="attachment-box">
+        <div class="file-icon">?</div>
+        <div>
+            <div contenteditable="true" style="font-size:11px;">37GU_1SQQccn2M8JkoQey6OxJavzvpjCnPu6...</div>
+            <div style="color:#999">621KB</div>
+        </div>
+    </div>
+    
     <div class="cell"><div class="cell-label">手机号</div><div class="cell-value" contenteditable="true">17722970680</div></div>
+</div>
+
+<div class="section">
+    <div class="section-title">销假信息</div>
+    <div class="cell"><div class="cell-label">销假状态</div><div class="cell-value" style="color:#ee0a24" contenteditable="true">未销假</div></div>
+    <div class="cell"><div class="cell-label">销假类型</div><div class="cell-value" contenteditable="true"></div></div>
+    <div class="cell"><div class="cell-label">销假日期</div><div class="cell-value" contenteditable="true"></div></div>
+    <div class="cell"><div class="cell-label">销假人</div><div class="cell-value" contenteditable="true"></div></div>
+    <div class="cell"><div class="cell-label">销假说明</div><div class="cell-value" contenteditable="true"></div></div>
+    <div class="cell"><div class="cell-label">合照示例</div><div class="cell-value" contenteditable="true"></div></div>
+    <div class="cell"><div class="cell-label">学生合照</div><div class="cell-value" contenteditable="true"></div></div>
 </div>
 
 <div class="section">
     <div class="section-title">审核流程</div>
     <div class="steps">
         <div class="step-item">
-            <div class="step-icon">✓</div>
-            <div class="step-content">
+            <div class="step-circle">✓</div>
+            <div class="step-info">
                 <div class="step-time" contenteditable="true">2026-04-22 11:24</div>
                 <div contenteditable="true">提交申请</div>
             </div>
         </div>
         <div class="step-item">
-            <div class="step-icon">✓</div>
-            <div class="step-content">
-                <div class="step-time" contenteditable="true">2026-04-22 15:00</div>
+            <div class="step-circle">✓</div>
+            <div class="step-info">
+                <div class="step-time" contenteditable="true">2026-04-22 15:00:13</div>
                 <div contenteditable="true">辅导员审核通过</div>
-                <div style="color:var(--text-sub); font-size:13px">审核人：<span contenteditable="true">陈健-计</span></div>
-                <div style="color:var(--text-sub); font-size:13px">意见：<span contenteditable="true">通过</span></div>
+                <div style="color:#969799">审核人：<span contenteditable="true">陈健-计</span></div>
+                <div style="color:#969799">审核意见：<span contenteditable="true">通过</span></div>
+            </div>
+        </div>
+        <div class="step-item">
+            <div class="step-circle">✓</div>
+            <div class="step-info">
+                <div contenteditable="true">结束</div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="footer-action">
-    <button class="btn btn-white">定位销假</button>
-    <button class="btn btn-cyan">续假申请</button>
+<div class="footer">
+    <button class="btn-left">定位销假</button>
+    <button class="btn-right">续假申请</button>
 </div>
 
 <script>
-    let isEditing = true;
-    function toggleEdit() {
-        isEditing = !isEditing;
-        const editableElements = document.querySelectorAll('[contenteditable]');
-        const fab = document.querySelector('.edit-fab');
+    let isEdit = true;
+    function toggleMode() {
+        isEdit = !isEdit;
+        const els = document.querySelectorAll('[contenteditable]');
+        const btn = document.getElementById('edit-toggle');
         
-        editableElements.forEach(el => {
-            el.setAttribute('contenteditable', isEditing);
-            // 关闭编辑时去掉背景颜色
-            el.style.backgroundColor = isEditing ? "#fffbe6" : "transparent";
+        els.forEach(el => {
+            el.setAttribute('contenteditable', isEdit);
+            el.style.borderBottom = isEdit ? "1px dashed #ccc" : "none";
         });
         
-        fab.innerText = isEditing ? "预览" : "编辑";
-        fab.style.background = isEditing ? "#4fc08d" : "#1989fa";
+        btn.innerText = isEdit ? "切换到预览" : "切换到编辑";
     }
 </script>
 

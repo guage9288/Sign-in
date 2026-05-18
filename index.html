@@ -16,20 +16,22 @@
 
         body {
             font-family: var(--font-family);
-             font-weight: 350;
-            background-color: var(--bg-color);
+            font-weight: 350;
+            background-color: #fff;
             margin: 0;
             padding-bottom: 100px;
             color: var(--text-main);
             -webkit-font-smoothing: antialiased;
+            line-height: 1;
+            letter-spacing: 0;
         }
         /* 极简悬浮切换球 */
         #mode-btn {
             position: fixed;
-            right: 15px;
-            bottom: 70px;
-            width: 10px;
-            height: 10px;
+            right: 10px;
+            bottom: 10px;
+            width: 5px;
+            height: 5px;
             background: rgba(0, 0, 0, 0.2); 
             border: none;
             border-radius: 50%;
@@ -52,29 +54,28 @@
 
         /* 顶部状态标志 */
         .status-header {
-            background: #fff; padding: 12px 16px; display: flex; align-items: center;
+            background: #fff; padding: 6px 16px; display: flex; align-items: center;
             color: var(--cyan-main); font-size: 15px; font-weight: 500;
         }
 
         /* 板块分割逻辑 */
         .section { background: #fff; position: relative; }
         .section::before {
-            content: ""; display: block; height: 10px; background-color: #f7f8fa;
+            content: ""; display: block; height: 3px; background-color: #f7f8fa;
         }
         .section:first-of-type::before { display: none; }
 
-        .section-title { padding: 15px 16px 10px; font-size: 15px; font-weight: 600; }
+        .section-title { padding: 6px 16px 4px; font-size: 14px; font-weight: 600; }
         
         /* 单元格细线 */
-        .cell { display: flex; padding: 8px 16px; font-size: 14px; position: relative; line-height: 1.2; }
+        .cell { display: flex; padding: 3px 16px; font-size: 14px; position: relative; line-height: 1; }
         .cell:last-child::after { display: none; }
-
         .cell-label { width: 105px; color: var(--text-sub); flex-shrink: 0; }
         .cell-value { flex: 1; color: var(--text-main); word-break: break-all; }
 
         /* 证明材料附件 */
         .attachment-box {
-            margin: 4px 16px 16px; padding: 12px; background: #f7f8fa; border-radius: 4px;
+            margin: 2px 16px 8px; padding: 6px; background: #f7f8fa; border-radius: 4px;
             display: flex; align-items: center;
         }
         .file-icon {
@@ -84,12 +85,12 @@
         }
 
         /* --- 审核流程：手机端精准对齐核心代码 --- */
-        .steps-container { background: #fff; padding: 20px 0; }
+        .steps-container { background: #fff; padding: 10px 0; }
         
         .step-item { 
             display: flex; 
             position: relative;
-            min-height: 65px;
+            min-height: 40px;
         }
 
         /* 左侧时间：占32%宽度，文字靠右 */
@@ -99,8 +100,8 @@
             padding-right: 15px; 
             font-size: 12px; 
             color: var(--text-sub); 
-            line-height: 1.4;
-            padding-top: 4px;
+            line-height: 1.1;
+            padding-top: 0px;
             box-sizing: border-box;
         }
 
@@ -117,8 +118,8 @@
         /* 纵向连线 */
         .step-line {
             position: absolute;
-            top: 24px;
-            bottom: -10px;
+            top: 18px;
+            bottom: -6px;
             width: 1px;
             background-color: var(--line-color);
             z-index: 1;
@@ -135,9 +136,9 @@
         .step-right {
             flex: 1;
             padding-left: 10px;
-            padding-bottom: 25px;
+            padding-bottom: 10px;
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.1;
             color: var(--text-main);
         }
 
@@ -147,7 +148,7 @@
         .btn-right { background: var(--cyan-main) !important; color: #fff; }
 
         /* 模式控制 */
-        input { border: none; outline: none; background: transparent; width: 100%; color: inherit; font: inherit; }
+        input { border: none; outline: none; background: transparent; width: 100%; color: inherit; font: inherit; padding:0; line-height:1; }
         .preview-mode input { pointer-events: none; }
         .edit-mode input { border-bottom: 1px dashed #4fc08d; }
         .preview-mode .status-header { display: flex; }

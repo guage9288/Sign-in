@@ -16,143 +16,101 @@
 
         body {
             font-family: var(--font-family);
-            font-weight: 350;
             background-color: var(--bg-color);
             margin: 0;
             padding-bottom: 100px;
             color: var(--text-main);
             -webkit-font-smoothing: antialiased;
-            line-height: 3;
-            letter-spacing: 0.5px; /* 将 0 改为 0.5 或者 1 */
+            /* 增加全局行距与字间距 */
+            line-height: 1.5;
+            letter-spacing: 0.5px;
         }
-        /* 极简悬浮切换球 */
-        #mode-btn {
-            position: fixed;
-            right: 10px;
-            bottom: 10px;
-            width: 5px;
-            height: 5px;
-            background: rgba(0, 0, 0, 0.2); 
-            border: none;
-            border-radius: 50%;
-            z-index: 999;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        /* 编辑模式下小球变色提醒 */
-        .edit-mode #mode-btn {
-            background: var(--cyan-main);
-            box-shadow: 0 2px 10px rgba(71, 193, 196, 0.4);
-        }
-        
+
+        /* 顶部导航 */
         .nav-bar { 
             background: #fff; height: 46px; display: flex; align-items: center; justify-content: center; 
             font-size: 17px; font-weight: 500; border-bottom: 1px solid var(--line-color);
             position: sticky; top: 0; z-index: 100;
         }
 
-        /* 顶部状态标志 */
-        .status-header {
-            background: #fff; padding: 6px 16px; display: flex; align-items: center;
-            color: var(--cyan-main); font-size: 15px; font-weight: 500;
-        }
-
-        /* 板块分割 极致缩小空隙 */
+        /* 板块：通过 margin-top 撑开灰色空隙 */
         .section { background: #fff; margin-top: 10px; position: relative; }
-       .section::before {display: none; }
-        .section:first-of-type::before { display: none; }
-
-        .section-title { padding: 16px 16px 8px; /* 上边距16px，下边距8px */
-                        font-size: 15px;       /* 稍微调大一点点 */
-                         font-weight: 400; 
-                         color: #323233;        /* 标题颜色 */
-                         background-color: #fff;
-                         border-bottom: 1px solid #ebedf0; /* 线条颜色使用你定义的变量颜色或这种浅灰色 */}
-        /* 单元格 行距最小化 左对齐 */
-        .cell { display: flex; padding: 8px 16px; font-size: 14px; position: relative; line-height: 1.02; align-items: flex-start;}
-        .cell:last-child::after { display: none; }
-        .cell-label { width: 105px; color: var(--text-sub); flex-shrink: 0; }
-        .cell-value { flex: 1; color: var(--text-main); word-break: break-all; text-align:left; }
-
-        /* 证明材料附件 压缩间距 */
-        .attachment-box {
-            margin: 1px 16px 5px; padding: 5px; background: #f7f8fa; border-radius: 4px;
-            display: flex; align-items: center;
-        }
-        .file-icon {
-            width: 32px; height: 32px; background: #fff; border: 1px solid #ebedf0;
-            display: flex; align-items: center; justify-content: center; margin-right: 10px;
-            color: #1989fa; font-size: 18px; font-weight: bold;
-        }
-
-        /* 审核流程整体收紧 */
-        .steps-container { background: #fff; padding: 6px 0; }
         
-        .step-item { 
+        /* 小标题：去掉粗体，加细横线 */
+        .section-title { 
+            padding: 16px 16px 10px; 
+            font-size: 15px; 
+            font-weight: 400; 
+            color: var(--text-main); 
+            background-color: #fff;
+            border-bottom: 1px solid var(--line-color); 
+        }
+
+        /* 单元格布局 */
+        .cell { display: flex; padding: 12px 16px; font-size: 14px; line-height: 1.4; align-items: flex-start;}
+        
+        .cell-label { width: 105px; color: var(--text-sub); flex-shrink: 0; }
+        
+        /* 强制右侧文字为深黑色 */
+        .cell-value { flex: 1; color: #323233 !important; word-break: break-all; text-align:left; }
+
+        /* 输入框样式 */
+        input { 
+            border: none; outline: none; background: transparent; width: 100%; 
+            color: #323233 !important; font: inherit; padding:0; text-align:left;
+            -webkit-text-fill-color: #323233; /* 兼容 iOS */
+            opacity: 1;
+        }
+
+        /* 证明材料附件区域 */
+        .attachment-upload { display: block; cursor: pointer; }
+        .attachment-upload:active { opacity: 0.6; }
+
+        .attachment-box {
+            margin: 4px 16px 12px; 
+            padding: 10px; 
+            background: #f7f8fa; 
+            border-radius: 8px;
             display: flex; 
-            position: relative;
-            min-height: 38px;
-        }
-
-        .step-left { 
-            width: 32%; 
-            text-align: right; 
-            padding-right: 15px; 
-            font-size: 12px; 
-            color: var(--text-sub); 
-            line-height: 1.05;
-            padding-top: 0px;
-            box-sizing: border-box;
-        }
-
-        .step-icon-column {
-            width: 40px;
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            flex-shrink: 0;
-            position: relative;
+            border: 1px dashed #dcdee0;
         }
 
-        .step-line {
-            position: absolute;
-            top: 17px;
-            bottom: -5px;
-            width: 1px;
-            background-color: var(--line-color);
-            z-index: 1;
+        .file-icon {
+            width: 40px; height: 40px; background: #fff; border-radius: 4px;
+            display: flex; align-items: center; justify-content: center; margin-right: 12px;
+            border: 1px solid #ebedf0;
+        }
+
+        /* 审核流程 */
+        .steps-container { background: #fff; padding: 15px 0; }
+        .step-item { display: flex; position: relative; min-height: 50px; }
+        .step-left { 
+            width: 32%; text-align: right; padding-right: 15px; 
+            font-size: 12px; color: var(--text-sub); line-height: 1.2;
+        }
+        .step-icon-column { width: 40px; display: flex; flex-direction: column; align-items: center; position: relative; }
+        .step-line { 
+            position: absolute; top: 20px; bottom: 0; width: 1px; 
+            background-color: var(--line-color); z-index: 1; 
         }
         .step-item:last-child .step-line { display: none; }
-
-        .check-circle {
-            width: 20px; height: 20px; background-color: var(--cyan-main); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; z-index: 2;
+        .check-circle { 
+            width: 20px; height: 20px; background-color: var(--cyan-main); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2; 
         }
         .check-circle svg { width: 12px; height: 12px; fill: none; stroke: white; stroke-width: 3; }
-
-        .step-right {
-            flex: 1;
-            padding-left: 10px;
-            padding-bottom: 6px;
-            font-size: 14px;
-            line-height: 1.08;
-            color: var(--text-main);
-        }
+        .step-right { flex: 1; padding-left: 10px; font-size: 14px; line-height: 1.4; color: var(--text-main); }
 
         /* 底部按钮 */
         .footer { position: fixed; bottom: 0; width: 100%; height: 50px; display: flex; background: #fff; border-top: 1px solid #eee; z-index: 100; }
-        .footer button { flex: 1; border: none; font-size: 16px; background: #fff; font-weight: 400; }
-        .btn-right { background: var(--cyan-main) !important; color: #fff; }
+        .footer button { flex: 1; border: none; font-size: 16px; background: #fff; color: var(--cyan-main); }
+        .btn-right { background: var(--cyan-main) !important; color: #fff !important; }
 
-        /* 输入框 纯左对齐 无内边距 */
-        input { border: none; outline: none; background: transparent; width: 100%; color: inherit; font: inherit; padding:0; line-height:1.02; text-align:left; }
+        /* 模式切换按钮 */
+        #mode-btn { position: fixed; right: 15px; bottom: 70px; background: rgba(0,0,0,0.6); color: #fff; border: none; padding: 8px 12px; border-radius: 4px; font-size: 12px; z-index: 200; }
         .preview-mode input { pointer-events: none; }
-        .edit-mode input { border-bottom: 1px dashed #4fc08d; }
-        .preview-mode .status-header { display: flex; }
-        .edit-mode .status-header { display: none; }
-
-        #mode-btn { position: fixed; right: 15px; bottom: 70px; background: rgba(0,0,0,0.6); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; z-index: 200; }
+        .edit-mode input { border-bottom: 1px dashed var(--cyan-main); }
     </style>
 </head>
 <body class="preview-mode">
@@ -175,15 +133,25 @@
     <div class="cell"><div class="cell-label">请假天数</div><div class="cell-value"><input type="text" value="0.4"></div></div>
     <div class="cell"><div class="cell-label">来源类型</div><div class="cell-value"><input type="text" value="学生申请"></div></div>
     <div class="cell"><div class="cell-label">请假事由</div><div class="cell-value"><input type="text" value="心理演讲比赛"></div></div>
-    <div class="cell" style="border:none"><div class="cell-label">证明材料 (1/9)</div></div>
-    <div class="attachment-box">
-        <div class="file-icon">?</div>
-        <div style="flex:1; font-size:13px;">
-            <div style="color:#323233;">37GU_1SQQccn2M8JkoQey6OxJavzvpjCnPu6...</div>
-            <div style="color:#969799; font-size:12px;">621KB</div>
+    
+    <div class="cell" style="padding-bottom:0;"><div class="cell-label">证明材料 (1/9)</div></div>
+    <label class="attachment-upload" for="file-input">
+        <input type="file" id="file-input" style="display: none;" onchange="handleFile(this)">
+        <div class="attachment-box">
+            <div class="file-icon">
+                <svg viewBox="0 0 1024 1024" width="20" height="20" fill="#1989fa"><path d="M854.6 288.7L639.4 73.5c-12.5-12.5-32.8-12.5-45.3 0l-452.6 452.6c-12.5 12.5-12.5 32.8 0 45.3l215.1 215.1c12.5 12.5 32.8 12.5 45.3 0l452.6-452.6c12.6-12.5 12.6-32.8 0.1-45.2zM379.9 741.3L209.6 571l407.3-407.3 170.3 170.3-407.3 407.3z"></path></svg>
+            </div>
+            <div style="flex:1; line-height: 1.2;">
+                <div id="file-name" style="color:#323233; font-size:13px;">37GU_1SQQccn2M8JkoQey6OxJavzvpjCnPu6...</div>
+                <div id="file-size" style="color:#969799; font-size:12px;">621KB</div>
+            </div>
         </div>
+    </label>
+    
+    <div class="cell">
+        <div class="cell-label">手机号</div>
+        <div class="cell-value"><input type="text" value="17722970680"></div>
     </div>
-    <div class="cell"><div class="cell-label">手机号</div><div class="cell-value"><input type="text" value="17722970680"></div></div>
 </div>
 
 <div class="section">
@@ -193,29 +161,34 @@
     <div class="cell"><div class="cell-label">销假日期</div><div class="cell-value"><input type="text" value=""></div></div>
     <div class="cell"><div class="cell-label">销假人</div><div class="cell-value"><input type="text" value=""></div></div>
     <div class="cell"><div class="cell-label">销假说明</div><div class="cell-value"><input type="text" value=""></div></div>
-    <div class="cell"><div class="cell-label">合照示例</div><div class="cell-value"></div></div>
-    <div class="cell"><div class="cell-label">学生合照</div><div class="cell-value"></div></div>
 </div>
 
 <div class="section">
     <div class="section-title">审核流程</div>
     <div class="steps-container">
         <div class="step-item">
-            <div class="step-left">2026-04-22<br>11:24</div>
+            <div class="step-left">
+                <input type="text" value="2026-04-22" style="text-align: right; font-size: 12px colo;"><br>
+                <input type="text" value="11:24" style="text-align: right; font-size: 12px;">
+            </div>
             <div class="step-icon-column">
                 <div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div>
                 <div class="step-line"></div>
             </div>
-            <div class="step-right">提交申请</div>
+            <div class="step-right"> <span style="color:var(--text-sub); ">提交申请</span></div>
         </div>
         <div class="step-item">
-            <div class="step-left">2026-04-22<br>15:00:13</div>
+            <div class="step-left">
+                <input type="text" value="2026-04-22" style="text-align: right; font-size: 12px;"><br>
+                <input type="text" value="11:24" style="text-align: right; font-size: 12px;">
+            </div>
             <div class="step-icon-column">
                 <div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div>
                 <div class="step-line"></div>
             </div>
             <div class="step-right">
-                辅导员审核通过<br>
+                <span style="color:var(--text-sub); ">辅导员审核</span><br>
+                <span style="color:var(--text-sub); font-size:13px">通过</span><br>
                 <span style="color:var(--text-sub); font-size:13px">审核人：陈健-计</span><br>
                 <span style="color:var(--text-sub); font-size:13px">审核意见：通过</span>
             </div>
@@ -225,7 +198,7 @@
             <div class="step-icon-column">
                 <div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div>
             </div>
-            <div class="step-right" style="padding-top:2px">结束</div>
+            <div class="step-right" style="padding-top:2px"><span style="color:var(--text-sub); ">结束</span></div>
         </div>
     </div>
 </div>
@@ -236,11 +209,25 @@
 </div>
 
 <script>
-  function toggleMode() {
+    function toggleMode() {
         const body = document.body;
+        const btn = document.getElementById('mode-btn');
         const isEdit = body.classList.contains('edit-mode');
         body.classList.toggle('edit-mode', !isEdit);
-        body.classList.toggle('preview-mode', isEdit);
+        body.classList.toggle('preview-mode', isEdit);;
+    }
+
+    function handleFile(input) {
+        const fileNameDisplay = document.getElementById('file-name');
+        const fileSizeDisplay = document.getElementById('file-size');
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            fileNameDisplay.innerText = file.name;
+            const size = file.size > 1024 * 1024 
+                ? (file.size / (1024 * 1024)).toFixed(2) + 'MB' 
+                : (file.size / 1024).toFixed(2) + 'KB';
+            fileSizeDisplay.innerText = size;
+        }
     }
 </script>
 </body>

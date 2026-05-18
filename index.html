@@ -59,14 +59,16 @@
         }
 
         /* 板块分割 极致缩小空隙 */
-        .section { background: #fff; position: relative; }
-        .section::before {
-            content: ""; display: block; height: 2px; background-color: #f7f8fa;
-        }
+        .section { background: #fff; margin-top: 10px; position: relative; }
+       .section::before {display: none; }
         .section:first-of-type::before { display: none; }
 
-        .section-title { padding: 5px 16px 3px; font-size: 14px; font-weight: 600; }
-        
+        .section-title { padding: 16px 16px 8px; /* 上边距16px，下边距8px */
+                        font-size: 15px;       /* 稍微调大一点点 */
+                         font-weight: 600; 
+                         color: #323233;        /* 标题颜色 */
+                         background-color: #fff;
+                         border-bottom: 1px solid #ebedf0; /* 线条颜色使用你定义的变量颜色或这种浅灰色 */}
         /* 单元格 行距最小化 左对齐 */
         .cell { display: flex; padding: 2px 16px; font-size: 14px; position: relative; line-height: 1.02; }
         .cell:last-child::after { display: none; }

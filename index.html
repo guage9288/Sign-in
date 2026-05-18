@@ -22,28 +22,26 @@
             color: var(--text-main);
             -webkit-font-smoothing: antialiased;
         }
-        /* 隐藏切换按钮的容器，改为悬浮小圆点 */
+        /* 极简悬浮切换球 */
         #mode-btn {
             position: fixed;
-            right: 20px;
-            bottom: 80px; /* 避开底部操作栏 */
-            width: 42px;
-            height: 42px;
-            background: rgba(0, 0, 0, 0.4); /* 半透明背景 */
-            color: #fff;
+            right: 15px;
+            bottom: 70px;
+            width: 32px;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.2); 
             border: none;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
             z-index: 999;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            transition: all 0.2s ease;
-            line-height: 1.2;
-            padding: 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        #mode-btn:active { transform: scale(0.9); background: rgba(0, 0, 0, 0.6); }
+        /* 编辑模式下小球变色提醒 */
+        .edit-mode #mode-btn {
+            background: var(--cyan-main);
+            box-shadow: 0 2px 10px rgba(71, 193, 196, 0.4);
+        }
         
         .nav-bar { 
             background: #fff; height: 46px; display: flex; align-items: center; justify-content: center; 
@@ -159,7 +157,7 @@
 </head>
 <body class="preview-mode">
 
-<button id="mode-btn" onclick="toggleMode()">切换到编辑模式</button>
+<button id="mode-btn" onclick="toggleMode()"></button>
 <div class="section">
     <div class="section-title">去向信息</div>
     <div class="cell"><div class="cell-label">是否出校</div><div class="cell-value"><input type="text" value="否"></div></div>
@@ -238,20 +236,11 @@
 </div>
 
 <script>
-   function toggleMode() {
+  function toggleMode() {
         const body = document.body;
-        const btn = document.getElementById('mode-btn');
         const isEdit = body.classList.contains('edit-mode');
-        
-        if (isEdit) {
-            body.classList.remove('edit-mode');
-            body.classList.add('preview-mode');
-            btn.innerHTML = "编辑";
-        } else {
-            body.classList.remove('preview-mode');
-            body.classList.add('edit-mode');
-            btn.innerHTML = "预览";
-        }
+        body.classList.toggle('edit-mode', !isEdit);
+        body.classList.toggle('preview-mode', isEdit);
     }
 </script>
 </body>

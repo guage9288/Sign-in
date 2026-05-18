@@ -6,10 +6,10 @@
     <title>请假</title>
     <style>
         :root {
-            --bg-color: #f7f8fa;
-            --text-main: #323233;
-            --text-sub: #969799;
-            --line-color: #ebedf0;
+            --bg-color: #ffffff;
+            --text-main: #333333;
+            --text-sub: #999999;
+            --line-color: #eeeeee;
             --cyan-main: #47c1c4;
             --font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
         }
@@ -17,14 +17,15 @@
         body {
             font-family: var(--font-family);
             font-weight: 350;
-            background-color: #fff;
+            background-color: var(--bg-color);
             margin: 0;
-            padding-bottom: 100px;
+            padding-bottom: 80px;
             color: var(--text-main);
             -webkit-font-smoothing: antialiased;
-            line-height: 1;
+            line-height: 1.05;
             letter-spacing: 0;
         }
+
         /* 极简悬浮切换球 */
         #mode-btn {
             position: fixed;
@@ -40,72 +41,116 @@
             cursor: pointer;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        /* 编辑模式下小球变色提醒 */
         .edit-mode #mode-btn {
             background: var(--cyan-main);
             box-shadow: 0 2px 10px rgba(71, 193, 196, 0.4);
         }
         
         .nav-bar { 
-            background: #fff; height: 46px; display: flex; align-items: center; justify-content: center; 
-            font-size: 17px; font-weight: 500; border-bottom: 1px solid var(--line-color);
-            position: sticky; top: 0; z-index: 100;
+            background: #fff; 
+            height: 46px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 17px; 
+            font-weight: 500; 
+            border-bottom: 1px solid var(--line-color);
+            position: sticky; 
+            top: 0; 
+            z-index: 100;
         }
 
-        /* 顶部状态标志 */
-        .status-header {
-            background: #fff; padding: 6px 16px; display: flex; align-items: center;
-            color: var(--cyan-main); font-size: 15px; font-weight: 500;
+        /* 板块标题 */
+        .section-title { 
+            padding: 16px 16px 10px; 
+            font-size: 17px; 
+            font-weight: 600; 
+            color: var(--text-main);
+            border-bottom: 1px solid var(--line-color);
         }
-
-        /* 板块分割逻辑 */
-        .section { background: #fff; position: relative; }
-        .section::before {
-            content: ""; display: block; height: 3px; background-color: #f7f8fa;
-        }
-        .section:first-of-type::before { display: none; }
-
-        .section-title { padding: 6px 16px 4px; font-size: 14px; font-weight: 600; }
         
-        /* 单元格细线 */
-        .cell { display: flex; padding: 3px 16px; font-size: 14px; position: relative; line-height: 1; }
-        .cell:last-child::after { display: none; }
-        .cell-label { width: 105px; color: var(--text-sub); flex-shrink: 0; }
-        .cell-value { flex: 1; color: var(--text-main); word-break: break-all; }
+        /* 单元格：加分割线，紧凑间距 */
+        .cell { 
+            display: flex; 
+            padding: 12px 16px; 
+            font-size: 16px; 
+            position: relative; 
+            line-height: 1.2; 
+            border-bottom: 1px solid var(--line-color);
+        }
+        .cell:last-child {
+            border-bottom: none;
+        }
+        .cell-label { 
+            width: 105px; 
+            color: var(--text-sub); 
+            flex-shrink: 0; 
+        }
+        .cell-value { 
+            flex: 1; 
+            color: var(--text-main); 
+            word-break: break-all; 
+            text-align: right;
+        }
 
         /* 证明材料附件 */
         .attachment-box {
-            margin: 2px 16px 8px; padding: 6px; background: #f7f8fa; border-radius: 4px;
-            display: flex; align-items: center;
+            margin: 0; 
+            padding: 12px 16px; 
+            background: #f7f8fa; 
+            display: flex; 
+            align-items: center;
+            border-bottom: 1px solid var(--line-color);
         }
         .file-icon {
-            width: 32px; height: 32px; background: #fff; border: 1px solid #ebedf0;
-            display: flex; align-items: center; justify-content: center; margin-right: 10px;
-            color: #1989fa; font-size: 18px; font-weight: bold;
+            width: 32px; 
+            height: 32px; 
+            background: #fff; 
+            border: 1px solid #ebedf0;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin-right: 10px;
+            color: #1989fa; 
+            font-size: 18px; 
+            font-weight: bold;
+        }
+        .attachment-info {
+            flex: 1; 
+            font-size: 14px;
+        }
+        .attachment-name {
+            color: #323233;
+            margin-bottom: 4px;
+        }
+        .attachment-size {
+            color: #969799; 
+            font-size: 12px;
         }
 
-        /* --- 审核流程：手机端精准对齐核心代码 --- */
-        .steps-container { background: #fff; padding: 10px 0; }
+        /* --- 审核流程 --- */
+        .steps-container { 
+            background: #fff; 
+            padding: 16px;
+        }
         
         .step-item { 
             display: flex; 
             position: relative;
-            min-height: 40px;
+            min-height: 60px;
         }
 
-        /* 左侧时间：占32%宽度，文字靠右 */
         .step-left { 
-            width: 32%; 
+            width: 30%; 
             text-align: right; 
-            padding-right: 15px; 
-            font-size: 12px; 
+            padding-right: 16px; 
+            font-size: 14px; 
             color: var(--text-sub); 
-            line-height: 1.1;
-            padding-top: 0px;
+            line-height: 1.3;
+            padding-top: 4px;
             box-sizing: border-box;
         }
 
-        /* 中间图标列：固定40px */
         .step-icon-column {
             width: 40px;
             display: flex;
@@ -115,11 +160,10 @@
             position: relative;
         }
 
-        /* 纵向连线 */
         .step-line {
             position: absolute;
-            top: 18px;
-            bottom: -6px;
+            top: 24px;
+            bottom: -10px;
             width: 1px;
             background-color: var(--line-color);
             z-index: 1;
@@ -127,78 +171,197 @@
         .step-item:last-child .step-line { display: none; }
 
         .check-circle {
-            width: 20px; height: 20px; background-color: var(--cyan-main); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; z-index: 2;
+            width: 28px; 
+            height: 28px; 
+            background-color: var(--cyan-main); 
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 2;
         }
-        .check-circle svg { width: 12px; height: 12px; fill: none; stroke: white; stroke-width: 3; }
+        .check-circle svg { 
+            width: 14px; 
+            height: 14px; 
+            fill: none; 
+            stroke: white; 
+            stroke-width: 3; 
+        }
 
-        /* 右侧内容：占据剩余空间 */
         .step-right {
             flex: 1;
-            padding-left: 10px;
-            padding-bottom: 10px;
-            font-size: 14px;
-            line-height: 1.1;
+            padding-left: 12px;
+            padding-bottom: 16px;
+            font-size: 16px;
+            line-height: 1.4;
             color: var(--text-main);
+        }
+        .step-sub {
+            font-size: 14px;
+            color: var(--text-sub);
+            margin-top: 4px;
         }
 
         /* 底部按钮 */
-        .footer { position: fixed; bottom: 0; width: 100%; height: 50px; display: flex; background: #fff; border-top: 1px solid #eee; z-index: 100; }
-        .footer button { flex: 1; border: none; font-size: 16px; background: #fff; font-weight: 400; }
-        .btn-right { background: var(--cyan-main) !important; color: #fff; }
+        .footer { 
+            position: fixed; 
+            bottom: 0; 
+            width: 100%; 
+            height: 50px; 
+            display: flex; 
+            background: #fff; 
+            border-top: 1px solid #eee; 
+            z-index: 100;
+        }
+        .footer button { 
+            flex: 1; 
+            border: none; 
+            font-size: 16px; 
+            background: #fff; 
+            font-weight: 400; 
+        }
+        .btn-right { 
+            background: var(--cyan-main) !important; 
+            color: #fff; 
+        }
 
         /* 模式控制 */
-        input { border: none; outline: none; background: transparent; width: 100%; color: inherit; font: inherit; padding:0; line-height:1; }
+        input { 
+            border: none; 
+            outline: none; 
+            background: transparent; 
+            width: 100%; 
+            color: inherit; 
+            font: inherit; 
+            padding: 0;
+            text-align: right;
+        }
         .preview-mode input { pointer-events: none; }
         .edit-mode input { border-bottom: 1px dashed #4fc08d; }
-        .preview-mode .status-header { display: flex; }
-        .edit-mode .status-header { display: none; }
+        .preview-mode .status-header { display: none; }
+        .edit-mode .status-header { display: flex; }
 
-        #mode-btn { position: fixed; right: 15px; bottom: 70px; background: rgba(0,0,0,0.6); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; z-index: 200; }
+        #mode-btn { 
+            position: fixed; 
+            right: 15px; 
+            bottom: 70px; 
+            background: rgba(0,0,0,0.6); 
+            color: #fff; 
+            border: none; 
+            padding: 6px 12px; 
+            border-radius: 4px; 
+            font-size: 12px; 
+            z-index: 200; 
+        }
     </style>
 </head>
 <body class="preview-mode">
 
 <button id="mode-btn" onclick="toggleMode()"></button>
+
+<!-- 去向信息 -->
 <div class="section">
     <div class="section-title">去向信息</div>
-    <div class="cell"><div class="cell-label">是否出校</div><div class="cell-value"><input type="text" value="否"></div></div>
+    <div class="cell">
+        <div class="cell-label">是否出校</div>
+        <div class="cell-value"><input type="text" value="否"></div>
+    </div>
 </div>
 
+<!-- 请假信息 -->
 <div class="section">
     <div class="section-title">请假信息</div>
-    <div class="cell"><div class="cell-label">学年</div><div class="cell-value"><input type="text" value="2025-2026学年"></div></div>
-    <div class="cell"><div class="cell-label">学期</div><div class="cell-value"><input type="text" value="第二学期"></div></div>
-    <div class="cell"><div class="cell-label">请假类型</div><div class="cell-value"><input type="text" value="公假"></div></div>
-    <div class="cell"><div class="cell-label">请假性质</div><div class="cell-value"><input type="text" value="因公请假"></div></div>
-    <div class="cell"><div class="cell-label">申请日期</div><div class="cell-value"><input type="text" value="2026-04-22 11:24"></div></div>
-    <div class="cell"><div class="cell-label">请假开始日期</div><div class="cell-value"><input type="text" value="2026-04-22 08:00"></div></div>
-    <div class="cell"><div class="cell-label">请假结束日期</div><div class="cell-value"><input type="text" value="2026-04-22 17:40"></div></div>
-    <div class="cell"><div class="cell-label">请假天数</div><div class="cell-value"><input type="text" value="0.4"></div></div>
-    <div class="cell"><div class="cell-label">来源类型</div><div class="cell-value"><input type="text" value="学生申请"></div></div>
-    <div class="cell"><div class="cell-label">请假事由</div><div class="cell-value"><input type="text" value="心理演讲比赛"></div></div>
-    <div class="cell" style="border:none"><div class="cell-label">证明材料 (1/9)</div></div>
+    <div class="cell">
+        <div class="cell-label">学年</div>
+        <div class="cell-value"><input type="text" value="2025-2026学年"></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">学期</div>
+        <div class="cell-value"><input type="text" value="第二学期"></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">请假类型</div>
+        <div class="cell-value"><input type="text" value="公假"></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">请假性质</div>
+        <div class="cell-value"><input type="text" value="因公请假"></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">申请日期</div>
+        <div class="cell-value"><input type="text" value="2026-04-22 11:24"></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">请假开始日期</div>
+        <div class="cell-value"><input type="text" value="2026-04-22 08:00"></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">请假结束日期</div>
+        <div class="cell-value"><input type="text" value="2026-04-22 17:40"></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">请假天数</div>
+        <div class="cell-value"><input type="text" value="0.4"></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">来源类型</div>
+        <div class="cell-value"><input type="text" value="学生申请"></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">请假事由</div>
+        <div class="cell-value"><input type="text" value="心理演讲比赛"></div>
+    </div>
+    <div class="cell" style="border:none; padding-bottom:0;">
+        <div class="cell-label">证明材料 (1/9)</div>
+        <div class="cell-value"></div>
+    </div>
     <div class="attachment-box">
         <div class="file-icon">?</div>
-        <div style="flex:1; font-size:13px;">
-            <div style="color:#323233;">37GU_1SQQccn2M8JkoQey6OxJavzvpjCnPu6...</div>
-            <div style="color:#969799; font-size:12px;">621KB</div>
+        <div class="attachment-info">
+            <div class="attachment-name">37GU_1SQQccn2M8JkoQey6OxJavzvpjCnPu6...</div>
+            <div class="attachment-size">621KB</div>
         </div>
     </div>
-    <div class="cell"><div class="cell-label">手机号</div><div class="cell-value"><input type="text" value="17722970680"></div></div>
+    <div class="cell">
+        <div class="cell-label">手机号</div>
+        <div class="cell-value"><input type="text" value="17722970680"></div>
+    </div>
 </div>
 
+<!-- 销假信息 -->
 <div class="section">
     <div class="section-title">销假信息</div>
-    <div class="cell"><div class="cell-label">销假状态</div><div class="cell-value" ><input type="text" value="未销假"></div></div>
-    <div class="cell"><div class="cell-label">销假类型</div><div class="cell-value"><input type="text" value=""></div></div>
-    <div class="cell"><div class="cell-label">销假日期</div><div class="cell-value"><input type="text" value=""></div></div>
-    <div class="cell"><div class="cell-label">销假人</div><div class="cell-value"><input type="text" value=""></div></div>
-    <div class="cell"><div class="cell-label">销假说明</div><div class="cell-value"><input type="text" value=""></div></div>
-    <div class="cell"><div class="cell-label">合照示例</div><div class="cell-value"></div></div>
-    <div class="cell"><div class="cell-label">学生合照</div><div class="cell-value"></div></div>
+    <div class="cell">
+        <div class="cell-label">销假状态</div>
+        <div class="cell-value"><input type="text" value="已销假"></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">销假类型</div>
+        <div class="cell-value"><input type="text" value="定位销假"></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">销假日期</div>
+        <div class="cell-value"><input type="text" value="2026-05-17 00:52:45"></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">销假人</div>
+        <div class="cell-value"><input type="text" value=""></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">销假说明</div>
+        <div class="cell-value"><input type="text" value=""></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">合照示例</div>
+        <div class="cell-value"></div>
+    </div>
+    <div class="cell">
+        <div class="cell-label">学生合照</div>
+        <div class="cell-value"></div>
+    </div>
 </div>
 
+<!-- 审核流程 -->
 <div class="section">
     <div class="section-title">审核流程</div>
     <div class="steps-container">
@@ -208,7 +371,9 @@
                 <div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div>
                 <div class="step-line"></div>
             </div>
-            <div class="step-right">提交申请</div>
+            <div class="step-right">
+                提交申请
+            </div>
         </div>
         <div class="step-item">
             <div class="step-left">2026-04-22<br>15:00:13</div>
@@ -217,9 +382,9 @@
                 <div class="step-line"></div>
             </div>
             <div class="step-right">
-                辅导员审核通过<br>
-                <span style="color:var(--text-sub); font-size:13px">审核人：陈健-计</span><br>
-                <span style="color:var(--text-sub); font-size:13px">审核意见：通过</span>
+                辅导员审核通过
+                <div class="step-sub">审核人：陈健-计</div>
+                <div class="step-sub">审核意见：通过</div>
             </div>
         </div>
         <div class="step-item">
@@ -227,11 +392,12 @@
             <div class="step-icon-column">
                 <div class="check-circle"><svg viewBox="0 0 24 24"><path d="M20 6L9 17L4 12"></path></svg></div>
             </div>
-            <div class="step-right" style="padding-top:2px">结束</div>
+            <div class="step-right">结束</div>
         </div>
     </div>
 </div>
 
+<!-- 底部按钮 -->
 <div class="footer">
     <button>定位销假</button>
     <button class="btn-right">续假申请</button>
